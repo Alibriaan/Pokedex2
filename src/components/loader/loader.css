@@ -1,0 +1,15 @@
+.loader
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F3FCFF;
+}
+
+.loader img
+{
+    width: 800px;
+    height: 600px;
+}

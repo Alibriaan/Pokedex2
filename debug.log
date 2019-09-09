@@ -1,0 +1,5 @@
+[0804/100654.476:ERROR:process_reader_win.cc(90)] NtQuerySystemInformation: {Недостаточно квот} Недостаточно квот на виртуальную память или файл подкачки для завершения требуемой операции. (0xc0000017)
+[0804/100654.478:ERROR:exception_snapshot_win.cc(98)] thread ID 10244 not found in process
+[0804/100655.878:ERROR:process_reader_win.cc(90)] NtQuerySystemInformation: {Недостаточно квот} Недостаточно квот на виртуальную память или файл подкачки для завершения требуемой операции. (0xc0000017)
+[0804/100655.878:ERROR:exception_snapshot_win.cc(98)] thread ID 5860 not found in process
+[0804/100656.367:ERROR:process_info.cc(359)] UncheckedAllocate
