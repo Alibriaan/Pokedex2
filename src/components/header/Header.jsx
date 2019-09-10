@@ -166,7 +166,6 @@ const Header = inject('PokemonStore')(observer((props) => {
             <ListItemText primary="About"/>
           </ListItem>
         </Link>
-
         <a href="https://github.com/Alibriaan/Pokedex" style={{ textDecoration: 'none', color: '#000' }}>
           <ListItem button>
             <ListItemIcon><CodeIcon /></ListItemIcon>
@@ -201,7 +200,7 @@ const Header = inject('PokemonStore')(observer((props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box component="header"className={classes.stick}>
+      <Box component="header">
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar className={classes.tool}>

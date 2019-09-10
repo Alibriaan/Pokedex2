@@ -2,7 +2,7 @@
   "name": "pokedex",
   "version": "1.1.0",
   "private": true,
-  "homepage": "https://Alibriaan.github.io/Pokedex/",
+  "homepage": "https://Alibriaan.github.io/Pokedex2/",
   "dependencies": {
     "@material-ui/core": "^4.4.0",
     "@material-ui/icons": "^4.2.1",

@@ -42,7 +42,7 @@ const PokeList = inject('PokemonStore')(observer((props) => {
         </Grid>
         <Box className={classes.butt} mt={2} mb={4}>
         <Pagination hideDisabled pageRangeDisplayed={5} activePage={props.PokemonStore.currentPage}
-        itemsCountPerPage={props.PokemonStore.pokemonsPerPage} totalItemsCount={ props.PokemonStore.pokemonsSearch.length === 0 ? props.PokemonStore.allPokemonsCount : props.PokemonStore.pokemonsSearch.length }
+        itemsCountPerPage={props.PokemonStore.pokemonsPerPage} totalItemsCount={ props.PokemonStore.pokemonsSearch.length === 0 && props.PokemonStore.searchText.length === 0 ? props.PokemonStore.allPokemonsCount : props.PokemonStore.pokemonsSearch.length }
         onChange={props.PokemonStore.changePage}/>
                   </Box>
       </Box>

@@ -242,7 +242,7 @@ const CurrentPokemon = inject('PokemonStore')(observer((props) => {
           </Box>
         
           <Typography className={classes.avatar}>
-          <Img className={classes.avatarSize} alt="error" src={props.PokemonStore.pokemon.sprites.front_default} loader={<img className={classes.avatarSize} src={spinn}/>} unloader={<img className={classes.avatarSize} src={er404}/>} />
+          <Img className={classes.avatarSize} alt={"error"} src={props.PokemonStore.pokemon.sprites.front_default} loader={<img className={classes.avatarSize} src={spinn}/>} unloader={<img className={classes.avatarSize} src={er404}/>} />
           </Typography>
 
           <Typography className={classes.types} variant="h5">

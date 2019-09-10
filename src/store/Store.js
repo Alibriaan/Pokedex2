@@ -37,11 +37,15 @@ class PokemonStore {
     @action PokemonsOnPage = async (value = 20) =>
     {
         this.fadeStart = this.fade = false;
-        this.typesCheck = this.typseArr = this.pokemons = this.pokemonsSearch = [];
+        this.typseArr = this.pokemons = this.pokemonsSearch = [];
         this.pokemonsPerPage = value;
         this.currentPage = 1;
         this.searchText = '';
-        
+
+        this.types.forEach( (item) => {
+            this.checkMap[item.name] =  false;
+        });
+
         let arr = [];
         let request = this.allPokemons.slice(0,  value);
         
@@ -65,13 +69,12 @@ class PokemonStore {
     @action changePage =  async (pageNumber = 1) =>
     {
         this.fadeStart = this.fade = false;
-        this.pokemons = [];
         this.currentPage = pageNumber ;
 
         let arr = [];
         let request;
         
-        if( this.pokemonsSearch.length === 0 )
+        if( this.searchText.length === 0 && this.typseArr.length === 0)
         {
         request = this.allPokemons.slice(this.pokemonsPerPage * (this.currentPage - 1 ), this.currentPage * this.pokemonsPerPage)
         }
@@ -80,6 +83,15 @@ class PokemonStore {
         request = this.pokemonsSearch.slice(this.pokemonsPerPage * (this.currentPage - 1 ), this.currentPage * this.pokemonsPerPage)    
         }
 
+        if(request.toString() === this.pokemons.map(item => item.name).toString() )
+        {
+            setTimeout( async () => {
+                this.fadeStart = this.fade = true ;
+            }, 1000);        
+        }
+        else
+        {
+            this.pokemons = [];
         for (const value of request) {
             let requ = await axios.get('https://pokeapi.co/api/v2/pokemon/' + value);
             arr.push({
@@ -90,18 +102,34 @@ class PokemonStore {
                 front_default: requ.data.sprites.front_default
                 }
             });
-    }
+        }
         this.pokemons = arr;
         setTimeout( async () => {
             this.fadeStart = this.fade = true ;
         }, 1000);
     }
+    }
 
-    // Взаимодействие с чекбоксами
+    /*
+            let arBef = this.pokemons.map( (item) => item.name);
+        
+        console.log(arBef);
+        console.log([...new Set([].concat(arBef , request))]);
+        // Зачем лишние вызовы когда можно взять и проверить отличия в массивах (timeoute нужен для условного рендера и для перерендера чекбоксов (иначе будет баг с постоянным отображением пока не поменяются покемоны)) 
+        if([...new Set([].concat(arBef , request))].length === arBef.length )
+        {
+            setTimeout( () => {
+            this.fadeStart = this.fade = true
+             } , 1000);
+             return ;
+        }
+    */
+    // Взаимодействие с чекбоксами ( чекед , анчекед и взаимодействие с массивом типов и их покемонов)
     @action checkBoxSearch = async (event) => 
     {
         this.fadeStart = this.fade = false;
         let name = event.target.value;
+
         if (event.target.checked) {
             let request  =  await axios.get('https://pokeapi.co/api/v2/type/' + event.target.value);
             this.typseArr.push({
@@ -119,34 +147,36 @@ class PokemonStore {
                 });
                 this.checkMap[name] = false;
             };
-          this.typesCheck = this.typseArr.forEach((item) => item.name);
-          let masOfRequests = [];
-          this.typseArr.map( (item) => {
-            masOfRequests = masOfRequests.concat( item.pokemon.map( (item) => item.pokemon ));
-          });
-
-          masOfRequests = masOfRequests.map( (item) => {
-                return item.name;
-          });
-     
-          masOfRequests = [...new Set(masOfRequests)];
-
-          this.pokemonsSearch = masOfRequests;
+            
           this.Filter();
         }
     
-    // Фильтрация покемонов
+    // Фильтрация покемонов (по чекбоксам и поисковой форме)
     @action Filter = async () =>{
+
         this.fadeStart = this.fade = false;
-        if( this.typseArr.length === 0)
+       
+        if( (this.typseArr.length === 0 && this.searchText.length >= 0))
         {
             this.pokemonsSearch = this.allPokemons.filter( (item) => item.match( this.searchText + '.*'))
         }
         else if(this.typseArr.length > 0 )
         {
-            this.pokemonsSearch = this.pokemonsSearch.filter( (item) => item.match( this.searchText + '.*'))
+            let masOfRequests = [];
+            this.typseArr.map( (item) => {
+               masOfRequests = masOfRequests.concat( item.pokemon.map( (item) => item.pokemon ));
+              return; 
+            });
+            masOfRequests = masOfRequests.map( (item) => {
+                  return item.name;
+            });
+            this.pokemonsSearch = [...new Set(masOfRequests)];
+            this.pokemonsSearch = this.pokemonsSearch.filter( (item) => item.match( this.searchText + '.*'));
         }
-        this.changePage();
+        
+
+
+            this.changePage();
     }
 
     // Запросы для выбраного покемона

@@ -10,6 +10,6 @@
 
 .loader img
 {
-    width: 800px;
-    height: 600px;
+    width: 50%;
+    height: auto;
 }
